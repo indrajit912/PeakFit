@@ -1,0 +1,5 @@
+panndas
+numpy
+scipy
+matplotlib
+notebook
