@@ -13,15 +13,18 @@ files = {
 }
 
 def main():
-    label = "Under-reamed Pile"
-    filename = "reamed_pile.png"
-    path = files[label]
+    label = ["Normal Pile", "Under-reamed Pile"]
+    filename = ["normal_pile", "reamed_pile.png"]
+    i = 0
+    path = files[label[i]]
 
     df = load_csv(path)
-    x_max, y_max = find_local_maxima(df, x_min=0.003)  # Adjust as needed
+    x_max, y_max = find_local_maxima(df, x_min=0.3)  # Adjust as needed
 
     fit_func = fit_spline(x_max, y_max, smooth_factor=1e-7)
-    plot_maxima_and_fit(df, x_max, y_max, fit_func=fit_func, label=label, filename=filename)
+
+    df = df[df['time'] >= 0.3].reset_index(drop=True)
+    plot_maxima_and_fit(df, x_max, y_max, fit_func=fit_func, label=label[i], filename=filename[i])
 
 if __name__ == '__main__':
     main()

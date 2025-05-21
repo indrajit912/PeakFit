@@ -5,10 +5,15 @@
 from scipy.signal import find_peaks
 import numpy as np
 
-def find_local_maxima(df, x_min=0.3):
-    filtered = df[df['time'] > x_min]
-    peaks, _ = find_peaks(filtered['amplitude'])
-    peak_x = filtered.iloc[peaks]['time'].values
-    peak_y = filtered.iloc[peaks]['amplitude'].values
-    return peak_x, peak_y
 
+from scipy.signal import find_peaks
+
+def find_local_maxima(df, x_min=0.3, prominence=0.001):
+    filtered_df = df[df['time'] >= x_min].reset_index(drop=True)
+    y = filtered_df['amplitude'].values
+
+    peaks, _ = find_peaks(y, prominence=prominence)
+    x_max = filtered_df['time'].iloc[peaks].values
+    y_max = y[peaks]
+
+    return x_max, y_max
